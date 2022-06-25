@@ -1,4 +1,4 @@
-FROM alpine:3.15.4 AS builder
+FROM alpine:3.16 AS builder
 
 RUN apk update && apk add --update --no-cache \
     fossil \
@@ -16,20 +16,15 @@ FROM builder AS sqlite
 
 WORKDIR /src
 
-ADD https://www.sqlite.org/2022/sqlite-autoconf-3380200.tar.gz sqlite-autoconf-3380200.tar.gz
+ENV VERSION=3390000
 
-RUN tar xvf sqlite-autoconf-3380200.tar.gz \
-    && cd sqlite-autoconf-3380200 \
+ADD https://www.sqlite.org/2022/sqlite-autoconf-${VERSION}.tar.gz sqlite-autoconf-${VERSION}.tar.gz
+
+RUN tar xvf sqlite-autoconf-${VERSION}.tar.gz \
+    && cd sqlite-autoconf-${VERSION} \
     && ./configure --enable-math --enable-fts --enable-json1 --enable-rtree \
     && make -j8 \
-    && make install
-
-RUN cd sqlite-autoconf-3380200 \
-    && gcc -Os -I. -DSQLITE_THREADSAFE=0 -DSQLITE_ENABLE_FTS4 \
-    -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_JSON1 \
-    -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_EXPLAIN_COMMENTS \
-    -DHAVE_USLEEP -DHAVE_READLINE \
-    shell.c sqlite3.c -ldl -lm -lreadline -lncurses -o /usr/local/bin/sqlite3
+    && make install-strip
 
 RUN fossil clone https://www.gaia-gis.it/fossil/freexl freexl.fossil --user anonymous \
     && mkdir freexl && cd freexl \
@@ -45,7 +40,7 @@ RUN fossil clone https://www.gaia-gis.it/fossil/libspatialite libspatialite.foss
     && make -j8 \
     && make install
 
-FROM alpine:3.15.4 AS image
+FROM alpine:3.16 AS image
 
 RUN apk update && apk add --update --no-cache \
     expat \
