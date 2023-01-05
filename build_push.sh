@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-VERSION=3.40.0-2022-09-09
+VERSION=3.40.1-2022-09-09
 
 docker build . -t spatialite:build
 
 docker run -t --rm \
     -v $(pwd)/test.sh:/test.sh \
     -v $(pwd)/test.sql:/test.sql \
+    -v $(pwd)/test_expected_output.txt:/test_expected_output.txt \
     spatialite:build sh -c '/test.sh'
 
 echo "Tagging images ..."

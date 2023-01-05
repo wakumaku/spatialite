@@ -16,7 +16,7 @@ FROM builder AS sqlite
 
 WORKDIR /src
 
-ENV VERSION=3400000
+ENV VERSION=3400100
 
 ADD https://www.sqlite.org/2022/sqlite-autoconf-${VERSION}.tar.gz sqlite-autoconf-${VERSION}.tar.gz
 
