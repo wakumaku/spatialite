@@ -1,4 +1,4 @@
-FROM alpine:3.18 AS builder
+FROM alpine:3.18.3 AS builder
 
 RUN apk update && apk add --update --no-cache \
     fossil \
@@ -16,7 +16,7 @@ FROM builder AS sqlite
 
 WORKDIR /src
 
-ENV VERSION=3420000
+ENV VERSION=3430100
 
 ADD https://www.sqlite.org/2023/sqlite-autoconf-${VERSION}.tar.gz sqlite-autoconf-${VERSION}.tar.gz
 
@@ -40,7 +40,7 @@ RUN fossil clone https://www.gaia-gis.it/fossil/libspatialite libspatialite.foss
     && make -j8 \
     && make install
 
-FROM alpine:3.18 AS image
+FROM alpine:3.18.3 AS image
 
 RUN apk update && apk add --update --no-cache \
     expat \

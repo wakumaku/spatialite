@@ -3,7 +3,7 @@ SQLite + SpatiaLite
 
 Version = SQLite Version - Spatialite last commit date
 
- 3.40.0-2022-09-09
+ 3.43.1-2023-09-04
 
 ```shell
 $ docker run --rm -it wakumaku/spatialite:latest sh
