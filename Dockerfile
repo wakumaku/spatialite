@@ -1,4 +1,4 @@
-FROM alpine:3.18.3 AS builder
+FROM alpine:3.18 AS builder
 
 RUN apk update && apk add --update --no-cache \
     fossil \
@@ -40,7 +40,7 @@ RUN fossil clone https://www.gaia-gis.it/fossil/libspatialite libspatialite.foss
     && make -j8 \
     && make install
 
-FROM alpine:3.18.3 AS image
+FROM alpine:3.18 AS image
 
 RUN apk update && apk add --update --no-cache \
     expat \
