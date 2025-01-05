@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-VERSION=3.43.1-2023-09-04
+VERSION=3.47.2-2024-03-29
 
 docker build . -t spatialite:build
 

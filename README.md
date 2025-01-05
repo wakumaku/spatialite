@@ -1,9 +1,11 @@
-# spatialite
-SQLite + SpatiaLite
+# spatialite docker image
+### SQLite + SpatiaLite
+
+Use this image to run SQLite with SpatiaLite extension as base image for your application!
 
 Version = SQLite Version - Spatialite last commit date
 
- 3.43.1-2023-09-04
+3.47.2-2024-03-29
 
 ```shell
 $ docker run --rm -it wakumaku/spatialite:latest sh
