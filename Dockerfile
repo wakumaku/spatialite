@@ -1,4 +1,4 @@
-FROM alpine:3.21.0 AS builder
+FROM alpine:3.22.1 AS builder
 
 RUN apk update && apk add --update --no-cache \
     fossil \
@@ -16,15 +16,16 @@ FROM builder AS sqlite
 
 WORKDIR /src
 
-ENV VERSION=3470200
+ENV VERSION=3500400
 
-ADD https://www.sqlite.org/2024/sqlite-autoconf-${VERSION}.tar.gz sqlite-autoconf-${VERSION}.tar.gz
+ADD https://www.sqlite.org/2025/sqlite-autoconf-${VERSION}.tar.gz sqlite-autoconf-${VERSION}.tar.gz
 
 RUN tar xvf sqlite-autoconf-${VERSION}.tar.gz \
     && cd sqlite-autoconf-${VERSION} \
-    && ./configure --enable-math --enable-fts --enable-json1 --enable-rtree \
+    && ./configure \
+        --enable-all \
     && make -j8 \
-    && make install-strip
+    && make install
 
 RUN fossil clone https://www.gaia-gis.it/fossil/freexl freexl.fossil --user anonymous \
     && mkdir freexl && cd freexl \
@@ -40,7 +41,7 @@ RUN fossil clone https://www.gaia-gis.it/fossil/libspatialite libspatialite.foss
     && make -j8 \
     && make install
 
-FROM alpine:3.21.0 AS image
+FROM alpine:3.22.1 AS image
 
 RUN apk update && apk add --update --no-cache \
     expat \

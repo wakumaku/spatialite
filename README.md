@@ -5,7 +5,7 @@ Use this image to run SQLite with SpatiaLite extension as base image for your ap
 
 Version = SQLite Version - Spatialite last commit date
 
-3.47.2-2024-03-29
+3.50.4-2024-03-29
 
 ```shell
 $ docker run --rm -it wakumaku/spatialite:latest sh
